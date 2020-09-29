@@ -1,8 +1,8 @@
 {
-  "name": "electron-template",
+  "name": "intelligent",
   "version": "0.0.1",
   "private": true,
-  "description": "A lightweight, yet powerful Electron.js template.",
+  "description": "Open source intelligence gathering and organization tool.",
   "author": "Paradigm Development, Inc.",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
@@ -13,11 +13,13 @@
   "main": "background.js",
   "dependencies": {
     "@mdi/font": "^3.8.95",
-    "core-js": "^2.6.5",
+    "axios": "^0.20.0",
+    "core-js": "^3.6.5",
     "electron-updater": "^4.3.5",
     "file-saver": "^2.0.2",
     "print-js": "^1.4.0",
     "vue": "^2.6.12",
+    "vue-global-events": "^1.2.1",
     "vuetify": "^2.3.10"
   },
   "devDependencies": {
@@ -28,5 +30,5 @@
     "vue-cli-plugin-tailwind": "~1.5.0",
     "vue-template-compiler": "^2.6.12"
   },
-  "repository": "github:Paradigm-Dev/electron-template"
+  "repository": "github:Paradigm-Dev/intelligent"
 }

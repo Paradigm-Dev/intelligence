@@ -7,7 +7,7 @@
       window
       style="-webkit-app-region: drag; -webkit-user-select: none;"
       height="38"
-      :color="$root.user ? '#06224B' : 'transparent'"
+      :color="$root.data ? '#06224B' : 'transparent'"
       class="pr-0"
     >
       <v-fade-transition group leave-absolute>
@@ -35,24 +35,23 @@
             text
             small
             color="grey lighten-1"
-            @click="
-              saveDocument();
-              newDocument();
-            "
+            @click="newDocument()"
             v-if="$root.data"
             >New</v-btn
           >
-          <v-btn text small color="grey lighten-1" v-if="$root.data"
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            v-if="$root.data"
+            @click="open_dialog = true"
             >Open</v-btn
           >
           <v-btn
             text
             small
             color="grey lighten-1"
-            @click="
-              saveDocument();
-              $root.data = false;
-            "
+            @click="$root.view.close_confirm_and_landing = true"
             v-if="$root.data"
             >Back</v-btn
           >
@@ -86,7 +85,7 @@
       window
       style="-webkit-app-region: drag;"
       height="38"
-      :color="$root.user ? '#06224B' : 'transparent'"
+      :color="$root.data ? '#06224B' : 'transparent'"
     >
       <div
         style="height: 12px; width: 12px; border-radius: 12px;"
@@ -130,24 +129,23 @@
             text
             small
             color="grey lighten-1"
-            @click="
-              saveDocument();
-              newDocument();
-            "
+            @click="newDocument()"
             v-if="$root.data"
             >New</v-btn
           >
-          <v-btn text small color="grey lighten-1" v-if="$root.data"
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            v-if="$root.data"
+            @click="open_dialog = true"
             >Open</v-btn
           >
           <v-btn
             text
             small
             color="grey lighten-1"
-            @click="
-              saveDocument();
-              $root.data = false;
-            "
+            @click="$root.view.close_confirm_and_landing = true"
             v-if="$root.data"
             >Back</v-btn
           >
@@ -297,6 +295,172 @@
         </v-container>
       </v-main>
     </v-slide-x-transition>
+
+    <v-dialog v-model="$root.view.close_confirm_and_new" max-width="350">
+      <v-card color="red">
+        <v-card-title>CONFIRM</v-card-title>
+        <v-card-text>
+          You have an active intelligence report open, what do you wish to do?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            text
+            @click="$root.view.close_confirm_and_open = false"
+            color="grey"
+            >Cancel</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            @click="
+              newDocument();
+              $root.view.close_confirm_and_new = false;
+            "
+            >Don't Save</v-btn
+          >
+          <v-btn
+            text
+            @click="
+              saveDocument();
+              newDocument();
+              $root.view.close_confirm_and_new = false;
+            "
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="$root.view.close_confirm_and_open" max-width="350">
+      <v-card color="red">
+        <v-card-title>CONFIRM</v-card-title>
+        <v-card-text>
+          You have an active intelligence report open, what do you wish to do?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            text
+            @click="
+              $root.view.close_confirm_and_open = false;
+              file_to_open = {};
+            "
+            color="grey"
+            >Cancel</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            @click="
+              $root.data = file_to_open;
+              $root.view.close_confirm_and_open = false;
+              file_to_open = {};
+            "
+            >Don't Save</v-btn
+          >
+          <v-btn
+            text
+            @click="
+              saveDocument();
+              $root.data = file_to_open;
+              $root.view.close_confirm_and_open = false;
+              file_to_open = {};
+            "
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="$root.view.close_confirm_and_landing" max-width="350">
+      <v-card color="red">
+        <v-card-title>CONFIRM</v-card-title>
+        <v-card-text>
+          You have an active intelligence report open, what do you wish to do?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            text
+            @click="$root.view.close_confirm_and_landing = false"
+            color="grey"
+            >Cancel</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            @click="
+              $root.data = false;
+              $root.view.close_confirm_and_landing = false;
+            "
+            >Don't Save</v-btn
+          >
+          <v-btn
+            text
+            @click="
+              saveDocument();
+              $root.data = false;
+              $root.view.close_confirm_and_landing = false;
+            "
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="$root.view.close_confirm_and_quit" max-width="350">
+      <v-card color="red">
+        <v-card-title>CONFIRM</v-card-title>
+        <v-card-text>
+          You have an active intelligence report open, what do you wish to do?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn
+            text
+            @click="$root.view.close_confirm_and_quit = false"
+            color="grey"
+            >Cancel</v-btn
+          >
+          <v-spacer></v-spacer>
+          <v-btn text @click="close()">Don't Save</v-btn>
+          <v-btn
+            text
+            @click="
+              saveDocument();
+              close();
+            "
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="open_dialog" v-if="open_dialog" max-width="500">
+      <v-card>
+        <v-card-title class="text-2xl font-weight-regular">
+          Open File
+        </v-card-title>
+
+        <v-list>
+          <v-list-item
+            v-for="(file, index) in filteredFileList"
+            :key="index"
+            @click="
+              $root.view.close_confirm_and_open = true;
+              file_to_open = file;
+            "
+          >
+            <v-list-item-title>{{ file.name }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+
+        <v-card-actions>
+          <v-btn text color="grey" @click="open_dialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -328,6 +492,8 @@ export default {
       password: "",
       tab: 0,
       console,
+      open_dialog: false,
+      file_to_open: {},
     };
   },
   computed: {
@@ -343,7 +509,9 @@ export default {
 
   methods: {
     close() {
-      this.win.close();
+      if (this.$root.data && !this.$root.view.close_confirm_and_quit)
+        this.$root.view.close_confirm_and_quit = true;
+      else this.win.close();
     },
     maximize() {
       this.win.maximize();

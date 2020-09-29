@@ -26,7 +26,7 @@ function createWindow() {
     backgroundColor: "#131313",
     webPreferences: {
       enableRemoteModule: true,
-      nodeIntegration: true,
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
   });
 

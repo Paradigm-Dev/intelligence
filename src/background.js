@@ -9,8 +9,6 @@ import {
 const isDevelopment = process.env.NODE_ENV !== "production";
 import Store from "./store.js";
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 const store = new Store();
@@ -25,10 +23,10 @@ function createWindow() {
   win = new BrowserWindow({
     width,
     height,
-    titleBarStyle: "hiddenInset",
     frame: false,
-    icon: "/build/icon.png",
+    backgroundColor: "#131313",
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true,
     },
   });

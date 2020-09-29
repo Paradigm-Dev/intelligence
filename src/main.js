@@ -62,6 +62,7 @@ Vue.mixin({
         files: [],
         data: [],
         relationships: [],
+        logs: [],
       };
     },
     async openDocument(file) {

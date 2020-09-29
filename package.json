@@ -1,8 +1,8 @@
 {
-  "name": "intelligent",
+  "name": "intelligence",
   "version": "0.0.1",
   "private": true,
-  "description": "Open source intelligence gathering and organization tool.",
+  "description": "Open source intelligence gathering and organizational tool.",
   "author": "Paradigm Development, Inc.",
   "scripts": {
     "serve": "vue-cli-service electron:serve",
@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "electron-updater": "^4.3.5",
     "file-saver": "^2.0.2",
+    "moment": "^2.29.0",
     "print-js": "^1.4.0",
     "vue": "^2.6.12",
     "vue-global-events": "^1.2.1",
@@ -30,5 +31,5 @@
     "vue-cli-plugin-tailwind": "~1.5.0",
     "vue-template-compiler": "^2.6.12"
   },
-  "repository": "github:Paradigm-Dev/intelligent"
+  "repository": "github:Paradigm-Dev/intelligence"
 }

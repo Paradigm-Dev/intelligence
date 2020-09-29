@@ -20,8 +20,42 @@
             src="./assets/logo.png"
             style="margin-right: 4px; margin-top: 3px; height: 18px;"
           />
-          <span style="margin-top: 2px;">Intelligent</span>
+          <span style="margin-top: 2px;">Intelligence</span>
           <!-- <span class="font-weight-light grey--text lighten-2 mr-2 hidden-xs-only">early-access beta</span> -->
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            class="ml-2"
+            @click="saveDocument()"
+            v-if="$root.data"
+            >Save</v-btn
+          >
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            @click="
+              saveDocument();
+              newDocument();
+            "
+            v-if="$root.data"
+            >New</v-btn
+          >
+          <v-btn text small color="grey lighten-1" v-if="$root.data"
+            >Open</v-btn
+          >
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            @click="
+              saveDocument();
+              $root.data = false;
+            "
+            v-if="$root.data"
+            >Back</v-btn
+          >
         </div>
         <span
           key="notification"
@@ -82,7 +116,41 @@
             src="./assets/logo.png"
             style="height: 24px; margin-right: 4px; margin-top: 1px;"
           />
-          <span style="margin-right: 4px; margin-top: 3px;">Intelligent</span>
+          <span style="margin-right: 4px; margin-top: 3px;">Intelligence</span>
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            class="ml-2"
+            @click="saveDocument()"
+            v-if="$root.data"
+            >Save</v-btn
+          >
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            @click="
+              saveDocument();
+              newDocument();
+            "
+            v-if="$root.data"
+            >New</v-btn
+          >
+          <v-btn text small color="grey lighten-1" v-if="$root.data"
+            >Open</v-btn
+          >
+          <v-btn
+            text
+            small
+            color="grey lighten-1"
+            @click="
+              saveDocument();
+              $root.data = false;
+            "
+            v-if="$root.data"
+            >Back</v-btn
+          >
           <!-- <span class="font-weight-light grey--text lighten-2 mr-2 hidden-xs-only">early-access beta</span> -->
         </div>
         <p
@@ -176,7 +244,7 @@
                   <span class="grey--text">Open...</span>
                 </v-col>
                 <v-col sm="2" class="text-right">
-                  <v-btn icon @click="reloadFiles()"
+                  <v-btn icon @click="refreshFiles()"
                     ><v-icon color="grey">mdi-reload</v-icon></v-btn
                   >
                 </v-col>
@@ -211,8 +279,8 @@
             <v-tab>Home</v-tab>
             <v-tab>Data</v-tab>
             <v-tab>Files</v-tab>
-            <v-tab>Relationships</v-tab>
-            <v-tab>Log</v-tab>
+            <!-- <v-tab>Relationships</v-tab> -->
+            <v-tab>Logs</v-tab>
             <v-tab>Help</v-tab>
             <v-tabs-slider></v-tabs-slider>
           </v-tabs>
@@ -222,6 +290,9 @@
           <v-tabs-items class="transparent" style="width: 100%;" v-model="tab">
             <v-tab-item><Home /></v-tab-item>
             <v-tab-item><Data /></v-tab-item>
+            <v-tab-item><Files /></v-tab-item>
+            <v-tab-item><Logs /></v-tab-item>
+            <v-tab-item><Help /></v-tab-item>
           </v-tabs-items>
         </v-container>
       </v-main>
@@ -235,12 +306,18 @@ import axios from "axios";
 
 import Home from "./pages/Home";
 import Data from "./pages/Data";
+import Files from "./pages/Files";
+import Logs from "./pages/Logs";
+import Help from "./pages/Help";
 
 export default {
   name: "app",
   components: {
     Home,
     Data,
+    Files,
+    Logs,
+    Help,
   },
   data() {
     return {
@@ -296,6 +373,14 @@ export default {
           }
         })
         .catch((error) => console.error(JSON.stringify(error)));
+    },
+    refreshFiles() {
+      axios
+        .get(
+          `https://www.theparadigmdev.com/api/drawer/${this.$root.user._id}/list`
+        )
+        .then((response) => (this.$root.user.files = response.data))
+        .catch((error) => console.error(error));
     },
   },
   created() {

@@ -7,16 +7,16 @@ module.exports = {
       nodeIntegration: true,
       icon: "build/icon.png",
       builderOptions: {
-        productName: "Intelligent",
+        productName: "Intelligence",
         dmg: {
-          artifactName: "Intelligent-v${version}.${ext}",
-          title: "Intelligent",
+          artifactName: "Intelligence-v${version}.${ext}",
+          title: "Intelligence",
         },
         nsis: {
-          artifactName: "Intelligent-v${version}.${ext}",
+          artifactName: "Intelligence-v${version}.${ext}",
           deleteAppDataOnUninstall: true,
-          shortcutName: "Intelligent",
-          uninstallDisplayName: "Intelligent",
+          shortcutName: "Intelligence",
+          uninstallDisplayName: "Intelligence",
         },
       },
     },

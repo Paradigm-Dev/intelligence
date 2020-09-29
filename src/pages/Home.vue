@@ -1,26 +1,23 @@
 <template>
   <div>
     <div class="text-center">
-      <v-btn text large @click="saveDocument()"
-        ><v-icon left>mdi-content-save</v-icon>Save</v-btn
-      >
-      <v-btn text large @click="newDocument()"
-        ><v-icon left>mdi-plus</v-icon>New</v-btn
-      >
-      <v-btn text large @click="open_dialog = true"
-        ><v-icon left>mdi-folder-open</v-icon>Open</v-btn
-      >
-      <!-- <v-btn text large @click="print_dialog = true"
-        ><v-icon left>mdi-printer</v-icon>Print</v-btn
-      > -->
-      <v-btn text large @click="$root.data = false"
-        ><v-icon left>mdi-close</v-icon>Close</v-btn
-      >
-      <br />
-      <img
+      <v-img
+        @click="primary_pic_selector = true"
         src="../assets/default.png"
+        v-if="$root.data.files.findIndex((file) => file.primary) == -1"
         class="rounded-full mx-auto mb-4 mt-12"
-        height="40"
+        height="200"
+        width="200"
+        v-ripple
+      />
+      <v-img
+        @click="primary_pic_selector = true"
+        :src="$root.data.files.find((file) => file.primary).uri"
+        v-else
+        class="rounded-full mx-auto mb-4 mt-12"
+        height="200"
+        width="200"
+        v-ripple
       />
       <!-- <img
         :src="
@@ -33,22 +30,55 @@
       <input
         type="text"
         v-model="$root.data.name.last"
-        class="text-4xl font-bold uppercase w-auto text-center"
+        class="text-4xl font-bold uppercase w-auto text-center mx-auto"
         placeholder="Last Name"
       /><br />
       <input
         type="text"
         v-model="$root.data.name.first"
-        class="text-2xl font-medium text-center"
+        class="text-2xl font-medium text-center mx-auto"
         placeholder="First Name"
       /><br />
       <input
         type="text"
         v-model="$root.data.case_number"
-        class="text-center"
+        class="text-center mx-auto"
         placeholder="Case Number"
       />
     </div>
+
+    <v-dialog max-width="750" v-model="primary_pic_selector">
+      <v-card>
+        <v-card-title class="text-2xl font-weight-regular">
+          Choose Primary Image
+        </v-card-title>
+
+        <v-list dense>
+          <v-list-item
+            @click="setPrimaryImage(file)"
+            v-for="(file, index) in $root.data.files.filter((file) =>
+              file.type.includes('image')
+            )"
+            :key="index"
+          >
+            <v-list-item-avatar>
+              <v-img :src="file.uri"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-title>{{ file.name }}</v-list-item-title>
+          </v-list-item>
+
+          <p
+            v-if="
+              $root.data.files.filter((file) => file.type.includes('image'))
+                .length < 1
+            "
+            class="font-weight-regular text-center"
+          >
+            No images
+          </p>
+        </v-list>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -56,10 +86,16 @@
 export default {
   name: "Home",
   data() {
-    return {};
+    return {
+      primary_pic_selector: false,
+    };
   },
   methods: {
-    // Page functions
+    setPrimaryImage(image) {
+      if (this.$root.data.files.find((file) => file.primary))
+        this.$root.data.files.find((file) => file.primary).primary = false;
+      image.primary = true;
+    },
   },
 };
 </script>

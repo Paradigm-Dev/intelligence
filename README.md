@@ -1,27 +1,38 @@
-# Electron Template
-Template for creating clean and modern Electron apps.
+[<img src="https://www.theparadigmdev.com/relay/img/paradigm.png" alt="Logo" width="150" height="150"></img>](https://www.theparadigmdev.com/)
 
-### Dependencies
-Once cloned or downloaded, open a command prompt or terminal window and execute:
+# Paradigm Intelligent
+
+An open-source intelligence gathering and organizational tool.
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" alt="Logo" width="100" height="100"></img>
+<img src="https://seeklogo.com/images/V/vuetify-logo-3BCF73C928-seeklogo.com.png" alt="Logo" width="100" height="100"></img>
+
+Proudly built with [Vue.js](https://vuejs.org/) and [Vuetify](https://vuetifyjs.com).
+
+We use [NPM](https://npmjs.org/) (Node Package Manager) for our external libraries.
+
+### Package installation
+
+Run this command to install all dependencies.
+
 ```
 npm install
 ```
 
-### Local development server
-To start a hot-reload development server execute:
+### Compile for development
+
+Run this command to create a temporary, hot-reload development server.
+
 ```
 npm run serve
 ```
 
-### Packaging
-To compile and build the app, run:
+### Compile for production
+
+Run this command to get a production-ready build.
+
 ```
 npm run build
 ```
 
-### Packaging and releasing to GitHub
-To compile, build, and release the app to GitHub for auto-updates, run:
-```
-npm run release
-```
-#### Be sure to change the repository in package.json!
+If you have any questions, comments, or concerns, please [contact support](mailto:paradigmdevelop@gmail.com).

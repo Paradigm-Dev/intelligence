@@ -2,7 +2,13 @@
   <div>
     <v-list dense class="transparent">
       <v-list-item
-        @click=""
+        @click="
+          edit_dialog = {
+            open: true,
+            object: JSON.parse(JSON.stringify(item)),
+            index,
+          }
+        "
         v-for="(item, index) in $root.data.data"
         :key="index"
       >
@@ -21,11 +27,12 @@
         </v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-if="$root.data.data.length < 1">
-        <v-list-item-title class="text-center font-weight-regular"
-          >No objects</v-list-item-title
-        >
-      </v-list-item>
+      <p
+        v-if="$root.data.data.length < 1"
+        class="font-weight-regular text-center"
+      >
+        No objects
+      </p>
     </v-list>
 
     <v-dialog
@@ -119,7 +126,63 @@
       </v-card>
     </v-dialog>
 
-    <v-btn fab fixed bottom right @click="new_dialog = true">
+    <v-dialog
+      v-model="edit_dialog.open"
+      v-if="edit_dialog.object"
+      max-width="1000"
+      @click:outside="edit_dialog = { open: false }"
+    >
+      <v-card>
+        <v-card-title class="text-2xl font-weight-regular">
+          Edit {{ edit_dialog.object.type }}
+        </v-card-title>
+
+        <v-card-text>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Key
+                  </th>
+                  <th class="text-left">
+                    Value
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(value, key) of edit_dialog.object" :key="key">
+                  <td>{{ key }}</td>
+                  <td>
+                    <input
+                      v-model="edit_dialog.object[key]"
+                      placeholder="Value"
+                      :disabled="key == 'type'"
+                      class="w-full"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="blue accent-1"
+            @click="
+              $root.data.data.splice(edit_dialog.index, 1, edit_dialog.object);
+              edit_dialog = { open: false };
+            "
+            >Save</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-btn fab fixed bottom right color="#06224B" @click="new_dialog = true">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </div>
@@ -134,6 +197,10 @@ export default {
         type: "",
       },
       new_dialog: false,
+      edit_dialog: {
+        open: false,
+      },
+      JSON,
     };
   },
   methods: {

@@ -163,13 +163,19 @@
     <!-- Site content -->
     <v-slide-x-transition group hide-on-leave>
       <v-main v-if="!$root.user" key="login">
-        <div class="tw-max-w-md mx-auto tw-py-20">
-          <img class="tw-h-32 mx-auto" src="./assets/paradigm.png" />
+        <div
+          style="max-width: 28rem; padding-top: 5rem;"
+          class="mx-auto text-center"
+        >
+          <img
+            style="height: 8rem; margin: auto;"
+            src="./assets/paradigm.png"
+          />
 
           <v-card
-            class="tw-w-full mt-10"
+            class="mt-10"
             color="#333333"
-            style="border: none !important;"
+            style="border: none !important; width: 100%;"
           >
             <v-card-title>
               <h1 class="text-h4 grey--text text--lighten-1">
@@ -439,7 +445,7 @@
 
     <v-dialog v-model="open_dialog" v-if="open_dialog" max-width="500">
       <v-card>
-        <v-card-title class="tw-text-2xl font-weight-regular">
+        <v-card-title class="text-2xl font-weight-regular">
           Open File
         </v-card-title>
 
@@ -615,5 +621,10 @@ html {
 
 * {
   outline: none;
+}
+
+input,
+textarea {
+  color: white;
 }
 </style>

@@ -3,7 +3,9 @@
 import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import { autoUpdater } from "electron-updater";
 import Store from "./store.js";
+
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -19,6 +21,7 @@ protocol.registerSchemesAsPrivileged([
 
 function createWindow() {
   let { width, height } = store.get("bounds");
+
   // Create the browser window.
   win = new BrowserWindow({
     width,
@@ -82,6 +85,7 @@ app.on("ready", async () => {
     }
   }
   createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // Exit cleanly on request from parent process in development mode.

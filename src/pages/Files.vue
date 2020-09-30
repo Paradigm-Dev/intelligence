@@ -74,7 +74,7 @@
 
     <v-dialog max-width="500" v-model="upload_dialog">
       <v-card>
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           Add File
         </v-card-title>
 
@@ -97,7 +97,7 @@
 
     <v-dialog max-width="500" v-model="rename.open" v-if="rename.file">
       <v-card>
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           Rename File
         </v-card-title>
 

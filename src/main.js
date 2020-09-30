@@ -3,9 +3,9 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
 import App from "./App.vue";
-import "./assets/tailwind.css";
 import axios from "axios";
 import Store from "./store.js";
+import './assets/tailwind.css'
 
 const store = new Store();
 const opts = {

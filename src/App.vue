@@ -163,11 +163,11 @@
     <!-- Site content -->
     <v-slide-x-transition group hide-on-leave>
       <v-main v-if="!$root.user" key="login">
-        <div class="max-w-md mx-auto py-20">
-          <img class="h-32 mx-auto" src="./assets/paradigm.png" />
+        <div class="tw-max-w-md mx-auto tw-py-20">
+          <img class="tw-h-32 mx-auto" src="./assets/paradigm.png" />
 
           <v-card
-            class="w-full mt-10"
+            class="tw-w-full mt-10"
             color="#333333"
             style="border: none !important;"
           >
@@ -267,7 +267,7 @@
       </v-main>
 
       <v-main v-if="$root.data && $root.user" key="editor">
-        <v-toolbar color="#06224B" dense ref="writetoolbar">
+        <v-toolbar color="#06224B" dense>
           <v-tabs
             show-arrows
             color="grey lighten-2"
@@ -439,7 +439,7 @@
 
     <v-dialog v-model="open_dialog" v-if="open_dialog" max-width="500">
       <v-card>
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           Open File
         </v-card-title>
 

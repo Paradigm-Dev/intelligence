@@ -1,21 +1,22 @@
 "use strict";
 
 import { app, protocol, BrowserWindow } from "electron";
-import { autoUpdater } from "electron-updater";
-import {
-  createProtocol,
-  installVueDevtools,
-} from "vue-cli-plugin-electron-builder/lib";
-const isDevelopment = process.env.NODE_ENV !== "production";
+import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import Store from "./store.js";
+const isDevelopment = process.env.NODE_ENV !== "production";
 
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 const store = new Store();
 
+// Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
+
 function createWindow() {
   let { width, height } = store.get("bounds");
   // Create the browser window.
@@ -23,14 +24,16 @@ function createWindow() {
     width,
     height,
     frame: false,
-    backgroundColor: "#131313",
     webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       enableRemoteModule: true,
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
     },
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
@@ -73,13 +76,12 @@ app.on("ready", async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
-      await installVueDevtools();
+      await installExtension(VUEJS_DEVTOOLS);
     } catch (e) {
       console.error("Vue Devtools failed to install:", e.toString());
     }
   }
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // Exit cleanly on request from parent process in development mode.

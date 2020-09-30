@@ -41,7 +41,7 @@
       @click:outside="new_item = { type: '' }"
     >
       <v-card v-if="!new_item.type">
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           New Object
         </v-card-title>
 
@@ -65,7 +65,7 @@
       </v-card>
 
       <v-card v-if="new_item.type">
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           New {{ new_item.type }}
         </v-card-title>
 
@@ -133,7 +133,7 @@
       @click:outside="edit_dialog = { open: false }"
     >
       <v-card>
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           Edit {{ edit_dialog.object.type }}
         </v-card-title>
 
@@ -158,7 +158,7 @@
                       v-model="edit_dialog.object[key]"
                       placeholder="Value"
                       :disabled="key == 'type'"
-                      class="w-full"
+                      class="tw-w-full"
                     />
                   </td>
                 </tr>

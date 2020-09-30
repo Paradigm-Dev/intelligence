@@ -10,11 +10,11 @@
   "scripts": {
     "serve": "vue-cli-service electron:serve",
     "build": "vue-cli-service electron:build -mw",
-    "release": "vue-cli-service electron:build --publish always -mw -c.mac.identity=null",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "release": "vue-cli-service electron:build --publish always -mw"
   },
-  "main": "./src/background.js",
+  "main": "background.js",
   "dependencies": {
     "@mdi/font": "^3.8.95",
     "axios": "^0.20.0",
@@ -28,10 +28,11 @@
     "@vue/cli-plugin-babel": "^4.5.6",
     "@vue/cli-service": "^4.5.6",
     "electron": "^9.3.1",
+    "electron-devtools-installer": "^3.1.1",
     "vue-cli-plugin-electron-builder": "^2.0.0-rc.4",
     "vue-cli-plugin-tailwind": "~1.5.0",
     "vue-template-compiler": "^2.6.12"
   },
-  "repository": "github:Paradigm-Dev/intelligence",
-  "homepage": "https://www.theparadigmdev.com"
+  "homepage": "https://www.theparadigmdev.com",
+  "repository": "github:Paradigm-Dev/intelligence"
 }

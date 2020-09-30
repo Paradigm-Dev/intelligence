@@ -5,7 +5,7 @@
         @click="primary_pic_selector = true"
         src="../assets/default.png"
         v-if="$root.data.files.findIndex((file) => file.primary) == -1"
-        class="rounded-full mx-auto mb-4 mt-12"
+        class="tw-rounded-full mx-auto mb-4 mt-12"
         height="200"
         width="200"
         v-ripple
@@ -14,7 +14,7 @@
         @click="primary_pic_selector = true"
         :src="$root.data.files.find((file) => file.primary).uri"
         v-else
-        class="rounded-full mx-auto mb-4 mt-12"
+        class="tw-rounded-full mx-auto mb-4 mt-12"
         height="200"
         width="200"
         v-ripple
@@ -30,13 +30,13 @@
       <input
         type="text"
         v-model="$root.data.name.last"
-        class="text-4xl font-bold uppercase w-auto text-center mx-auto"
+        class="tw-text-4xl tw-font-bold tw-uppercase tw-w-auto text-center mx-auto"
         placeholder="Last Name"
       /><br />
       <input
         type="text"
         v-model="$root.data.name.first"
-        class="text-2xl font-medium text-center mx-auto"
+        class="tw-text-2xl tw-font-medium text-center mx-auto"
         placeholder="First Name"
       /><br />
       <input
@@ -49,7 +49,7 @@
 
     <v-dialog max-width="750" v-model="primary_pic_selector">
       <v-card>
-        <v-card-title class="text-2xl font-weight-regular">
+        <v-card-title class="tw-text-2xl font-weight-regular">
           Choose Primary Image
         </v-card-title>
 

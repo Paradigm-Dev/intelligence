@@ -2,12 +2,14 @@ module.exports = {
   transpileDependencies: ["vuetify"],
   pluginOptions: {
     electronBuilder: {
-      outputDir: "output",
+      outputDir: "dist",
       removeElectronJunk: false,
       nodeIntegration: true,
-      icon: "build/icon.png",
       builderOptions: {
         productName: "Intelligence",
+        mac: {
+          darkModeSupport: true,
+        },
         dmg: {
           artifactName: "Intelligence-v${version}.${ext}",
           title: "Intelligence",

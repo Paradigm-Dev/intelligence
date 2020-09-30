@@ -3,14 +3,14 @@
     <p>If you require assistance, please...</p>
     <p>
       <a
-        class="text-lg"
+        class="tw-text-lg"
         target="_blank"
         href="https://github.com/Paradigm-Dev/intelligence/issues"
         >Open an issue in our GitHub repository</a
       >
     </p>
-    <p class="italic">OR</p>
-    <a class="text-lg" href="mailto:paradigmdevelop@gmail.com"
+    <p class="tw-italic">OR</p>
+    <a class="tw-text-lg" href="mailto:paradigmdevelop@gmail.com"
       >Contact support</a
     >
   </div>

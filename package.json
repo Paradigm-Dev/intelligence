@@ -10,9 +10,9 @@
   "scripts": {
     "build": "vue-cli-service electron:build",
     "serve": "vue-cli-service electron:serve",
+    "release": "vue-cli-service electron:build --publish always -mw",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
-    "release": "vue-cli-service electron:build --publish always -mw"
+    "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
   "dependencies": {

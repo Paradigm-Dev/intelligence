@@ -5,7 +5,7 @@
       v-if="process.platform != 'darwin'"
       app
       window
-      style="-webkit-app-region: drag; -webkit-user-select: none;"
+      style="-webkit-app-region: drag; -webkit-user-select: none"
       height="38"
       :color="$root.data ? '#06224B' : 'transparent'"
       class="pr-0"
@@ -14,13 +14,13 @@
         <div
           key="logo"
           v-if="!$root.notify.is"
-          style="display: inline-flex !important; margin-left: 2px;"
+          style="display: inline-flex !important; margin-left: 2px"
         >
           <img
             src="./assets/logo.png"
-            style="margin-right: 4px; margin-top: 3px; height: 18px;"
+            style="margin-right: 4px; margin-top: 3px; height: 18px"
           />
-          <span style="margin-top: 2px;">Intelligence</span>
+          <span style="margin-top: 2px">Intelligence</span>
           <!-- <span class="font-weight-light grey--text lighten-2 mr-2 hidden-xs-only">early-access beta</span> -->
           <v-btn
             text
@@ -63,7 +63,7 @@
         ></span>
       </v-fade-transition>
       <v-spacer></v-spacer>
-      <div style="-webkit-app-region: no-drag; margin-bottom: 1px;">
+      <div style="-webkit-app-region: no-drag; margin-bottom: 1px">
         <v-icon @click="minimize()" v-ripple class="toolbar-icon"
           >mdi-minus</v-icon
         >
@@ -83,39 +83,39 @@
       v-if="process.platform == 'darwin'"
       app
       window
-      style="-webkit-app-region: drag;"
+      style="-webkit-app-region: drag"
       height="38"
       :color="$root.data ? '#06224B' : 'transparent'"
     >
       <div
-        style="height: 12px; width: 12px; border-radius: 12px;"
+        style="height: 12px; width: 12px; border-radius: 12px"
         v-ripple
         @click="close()"
         class="red mx-1"
       ></div>
       <div
-        style="height: 12px; width: 12px; border-radius: 12px;"
+        style="height: 12px; width: 12px; border-radius: 12px"
         v-ripple
         @click="minimize()"
         class="yellow darken-2 mx-1"
       ></div>
       <div
-        style="height: 12px; width: 12px; border-radius: 12px;"
+        style="height: 12px; width: 12px; border-radius: 12px"
         v-ripple
         @click="maximized ? unmaximize() : maximize()"
         class="green mx-1"
       ></div>
-      <v-fade-transition group leave-absolute style="margin: 4px 4px 0px 10px;">
+      <v-fade-transition group leave-absolute style="margin: 4px 4px 0px 10px">
         <div
           key="logo"
           v-if="!$root.notify.is"
-          style="display: inline-flex !important;"
+          style="display: inline-flex !important"
         >
           <img
             src="./assets/logo.png"
-            style="height: 24px; margin-right: 4px; margin-top: 1px;"
+            style="height: 24px; margin-right: 4px; margin-top: 1px"
           />
-          <span style="margin-right: 4px; margin-top: 3px;">Intelligence</span>
+          <span style="margin-right: 4px; margin-top: 3px">Intelligence</span>
           <v-btn
             text
             small
@@ -164,18 +164,15 @@
     <v-slide-x-transition group hide-on-leave>
       <v-main v-if="!$root.user" key="login">
         <div
-          style="max-width: 28rem; padding-top: 5rem;"
+          style="max-width: 28rem; padding-top: 5rem"
           class="mx-auto text-center"
         >
-          <img
-            style="height: 8rem; margin: auto;"
-            src="./assets/paradigm.png"
-          />
+          <img style="height: 8rem; margin: auto" src="./assets/paradigm.png" />
 
           <v-card
             class="mt-10"
             color="#333333"
-            style="border: none !important; width: 100%;"
+            style="border: none !important; width: 100%"
           >
             <v-card-title>
               <h1 class="text-h4 grey--text text--lighten-1">
@@ -291,7 +288,7 @@
         </v-toolbar>
 
         <v-container>
-          <v-tabs-items class="transparent" style="width: 100%;" v-model="tab">
+          <v-tabs-items class="transparent" style="width: 100%" v-model="tab">
             <v-tab-item><Home /></v-tab-item>
             <v-tab-item><Data /></v-tab-item>
             <v-tab-item><Files /></v-tab-item>
@@ -547,14 +544,6 @@ export default {
           }
         })
         .catch((error) => console.error(JSON.stringify(error)));
-    },
-    refreshFiles() {
-      axios
-        .get(
-          `https://www.theparadigmdev.com/api/drawer/${this.$root.user._id}/list`
-        )
-        .then((response) => (this.$root.user.files = response.data))
-        .catch((error) => console.error(error));
     },
   },
   created() {

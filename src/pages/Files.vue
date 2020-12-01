@@ -156,7 +156,7 @@ export default {
       var reader = new FileReader();
       let that = this;
       console.log(this.new_file);
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         let data = {
           uri: reader.result,
           name: that.new_file.name,
@@ -169,7 +169,6 @@ export default {
         that.$root.data.files.push(data);
         that.upload_dialog = false;
         that.new_file = null;
-        that.saveDocument();
       };
       reader.readAsDataURL(this.new_file);
     },

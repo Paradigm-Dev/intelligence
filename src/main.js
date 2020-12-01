@@ -19,23 +19,27 @@ Vue.mixin({
       }, 3000);
     },
     saveDocument() {
-      if (
-        this.$root.data.name.first &&
-        this.$root.data.name.last &&
-        this.$root.data.case_number
-      ) {
-        this.$root.data.title = `${this.$root.data.name.last.toUpperCase()}, ${
-          this.$root.data.name.first
-        } (#${this.$root.data.case_number})`;
+      const primary_object = this.$root.data.data.find(
+        object => object.primary
+      );
+      let array = primary_object.name.split(", ");
+      if (!array[0]) array[0] = "";
+      if (!array[1]) array[1] = "";
+
+      if (primary_object.name && this.$root.data.case_number) {
+        this.$root.data.title = `${array[0].toUpperCase()}${
+          array[0] && array[1] ? "," : ""
+        } ${array[1]} (#${this.$root.data.case_number})`;
         axios
           .post(
             `https://www.theparadigmdev.com/api/drawer/${this.$root.user._id}/upload/intel`,
             this.$root.data
           )
-          .then((response) => {
+          .then(response => {
             this.$notify("Saved!");
+            this.refreshFiles();
           })
-          .catch((error) => console.error(error));
+          .catch(error => console.error(error));
       } else
         this.$notify(
           '<span class="red--text">Please make sure you add a name and case number!</span>'
@@ -46,14 +50,16 @@ Vue.mixin({
         this.$root.view.close_confirm_and_new = true;
       } else {
         this.$root.data = {
-          name: {
-            first: "",
-            last: "",
-          },
           files: [],
-          data: [],
+          data: [
+            {
+              type: "Person",
+              primary: true,
+              name: ""
+            }
+          ],
           relationships: [],
-          logs: [],
+          logs: []
         };
       }
     },
@@ -62,22 +68,31 @@ Vue.mixin({
         .get(
           `https://www.theparadigmdev.com/api/drawer/${this.$root.user._id}/get/${file._id}`
         )
-        .then((response) => {
+        .then(response => {
           this.$root.data = response.data;
+          console.log(this.$root.data);
         })
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
     },
-  },
+    refreshFiles() {
+      axios
+        .get(
+          `https://www.theparadigmdev.com/api/drawer/${this.$root.user._id}/list`
+        )
+        .then(response => (this.$root.user.files = response.data))
+        .catch(error => console.error(error));
+    }
+  }
 });
 
 new Vue({
   vuetify,
-  render: (h) => h(App),
+  render: h => h(App),
   data() {
     return {
       notify: {
         text: "",
-        is: false,
+        is: false
       },
       data: false,
       user: false,
@@ -86,11 +101,11 @@ new Vue({
         close_confirm_and_new: false,
         close_confirm_and_landing: false,
         close_confirm_and_quit: false,
-        close_confirm_and_open: false,
-      },
+        close_confirm_and_open: false
+      }
     };
   },
   created() {
     this.$root.types = store.get("objects");
-  },
+  }
 }).$mount("#app");

@@ -2,13 +2,7 @@
   <div>
     <v-list dense class="transparent">
       <v-list-item
-        @click="
-          edit_dialog = {
-            open: true,
-            object: JSON.parse(JSON.stringify(item)),
-            index,
-          }
-        "
+        @click="beginEditing(item)"
         v-for="(item, index) in $root.data.data"
         :key="index"
       >
@@ -38,7 +32,9 @@
     <v-dialog
       v-model="new_dialog"
       max-width="1000"
-      @click:outside="new_item = { type: '' }"
+      @click:outside="
+        new_item.type ? saveNewObject() : (new_item = { type: '' })
+      "
     >
       <v-card v-if="!new_item.type">
         <v-card-title class="text-h5 font-weight-regular">
@@ -74,12 +70,8 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">
-                    Key
-                  </th>
-                  <th class="text-left">
-                    Value
-                  </th>
+                  <th class="text-left">Key</th>
+                  <th class="text-left">Value</th>
                 </tr>
               </thead>
               <tbody>
@@ -90,7 +82,7 @@
                       v-model="new_item[key]"
                       placeholder="Value"
                       :disabled="key == 'type'"
-                      style="width: 100%;"
+                      style="width: 100%"
                     />
                   </td>
                 </tr>
@@ -130,7 +122,10 @@
       v-model="edit_dialog.open"
       v-if="edit_dialog.object"
       max-width="1000"
-      @click:outside="edit_dialog = { open: false }"
+      @click:outside="
+        $root.data.data.splice(edit_dialog.index, 1, edit_dialog.object);
+        edit_dialog = { open: false };
+      "
     >
       <v-card>
         <v-card-title class="text-h5 font-weight-regular">
@@ -142,12 +137,8 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">
-                    Key
-                  </th>
-                  <th class="text-left">
-                    Value
-                  </th>
+                  <th class="text-left">Key</th>
+                  <th class="text-left">Value</th>
                 </tr>
               </thead>
               <tbody>
@@ -158,7 +149,7 @@
                       v-model="edit_dialog.object[key]"
                       placeholder="Value"
                       :disabled="key == 'type'"
-                      style="width: 100%;"
+                      style="width: 100%"
                     />
                   </td>
                 </tr>
@@ -168,6 +159,24 @@
         </v-card-text>
 
         <v-card-actions>
+          <v-btn
+            icon
+            :readonly="edit_dialog.object.primary"
+            @click="setPrimaryObject(edit_dialog.object)"
+            color="yellow"
+            v-if="edit_dialog.object.type == 'Person'"
+            ><v-icon>{{
+              edit_dialog.object.primary ? "mdi-star" : "mdi-star-outline"
+            }}</v-icon></v-btn
+          >
+          <v-btn
+            icon
+            @click="deleteObject()"
+            color="red"
+            :disabled="edit_dialog.object.primary"
+            ><v-icon>mdi-delete</v-icon></v-btn
+          >
+
           <v-spacer></v-spacer>
           <v-btn
             text
@@ -210,15 +219,35 @@ export default {
         type: "",
       };
       this.new_dialog = false;
-      this.saveDocument();
     },
     stageNewObject(type) {
       this.new_item = {
         type: type.title,
       };
+      if (type == "Person") this.new_item.primary = false;
       for (let i = 0; i < type.keys.length; i++) {
         this.new_item[type.keys[i]] = "";
       }
+    },
+    beginEditing(object) {
+      this.edit_dialog = {
+        open: true,
+        object: JSON.parse(JSON.stringify(object)),
+        index: this.$root.data.data.findIndex((item) => item == object),
+      };
+    },
+    deleteObject() {
+      this.$root.data.data.splice(this.edit_dialog.index, 1);
+      this.edit_dialog = { open: false };
+    },
+    setPrimaryObject(object) {
+      if (this.$root.data.data.find((item) => item.primary)) {
+        this.$root.data.data.find((item) => item.primary).primary = false;
+      }
+      this.edit_dialog.object.primary = true;
+      this.$root.data.data.splice(this.edit_dialog.index, 1);
+      this.$root.data.data.unshift(object);
+      this.edit_dialog.index = 0;
     },
   },
 };

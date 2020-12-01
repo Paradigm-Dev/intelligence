@@ -11,7 +11,7 @@ const defaults = {
       description: "A human being",
       keys: ["name", "gender", "date of birth", "ssn"],
       preview: "name",
-      category: "personal",
+      category: "personal"
     },
     {
       icon: "mdi-car",
@@ -19,24 +19,33 @@ const defaults = {
       description: "An automobile used for transportation of humans",
       keys: ["vin", "plate", "make", "model", "year"],
       preview: "plate",
-      category: "vehicle",
+      category: "vehicle"
     },
     {
       icon: "mdi-home",
       title: "House",
       description: "A building used as a dwelling for humans",
-      keys: ["address"],
+      keys: [
+        "address",
+        "parcel id",
+        "municipality",
+        "sale date",
+        "sale price",
+        "area",
+        "school district",
+        "built"
+      ],
       preview: "address",
-      category: "location",
+      category: "location"
     },
     {
       icon: "mdi-phone",
       title: "Phone",
       description:
         "A device used for over-the-air communications between humans",
-      keys: ["phone number", "make", "model", "imei"],
+      keys: ["phone number", "make", "model", "imei", "password"],
       preview: "phone number",
-      category: "tech",
+      category: "tech"
     },
     {
       icon: "mdi-school",
@@ -44,7 +53,7 @@ const defaults = {
       description: "A place on Earth in which humans gain knowledge",
       keys: ["name", "address", "educational level"],
       preview: "name",
-      category: "personal",
+      category: "personal"
     },
     {
       icon: "mdi-christianity",
@@ -52,7 +61,7 @@ const defaults = {
       description: "A group of humans who believe in some sort of higher power",
       keys: ["name", "leader"],
       preview: "name",
-      category: "group",
+      category: "group"
     },
     {
       icon: "mdi-office-building",
@@ -61,16 +70,16 @@ const defaults = {
         "A group of humans who work for another human, who is in charge and produces some sort of product or service",
       keys: ["name", "hq address", "type", "boss"],
       preview: "name",
-      category: "group",
+      category: "group"
     },
     {
       icon: "mdi-at",
       title: "Email",
       description:
         "An electronic mailbox in which humans use to communicate via the Internet",
-      keys: ["email"],
+      keys: ["email", "password", "recovery info", "2fa"],
       preview: "email",
-      category: "tech",
+      category: "tech"
     },
     {
       icon: "mdi-lock",
@@ -78,7 +87,7 @@ const defaults = {
       description: "A string that humans use to authenticate over the Internet",
       keys: ["password"],
       preview: "password",
-      category: "personal",
+      category: "personal"
     },
     {
       icon: "mdi-map-marker",
@@ -92,10 +101,10 @@ const defaults = {
         "state/province",
         "country",
         "zip",
-        "coordinates",
+        "coordinates"
       ],
       preview: "name",
-      category: "location",
+      category: "location"
     },
     {
       icon: "mdi-lan",
@@ -109,10 +118,10 @@ const defaults = {
         "speed",
         "internet?",
         "dhcp?",
-        "dns",
+        "dns"
       ],
       preview: "name",
-      category: "tech",
+      category: "tech"
     },
     {
       icon: "mdi-forum",
@@ -120,7 +129,7 @@ const defaults = {
       description: "A gathering of humans to discuss business",
       keys: ["name", "date", "time", "address", "held by", "pertaining to"],
       preview: "name",
-      category: "event",
+      category: "event"
     },
     {
       icon: "mdi-account-multiple",
@@ -128,7 +137,7 @@ const defaults = {
       description: "A discussion between at least two humans",
       keys: ["name", "date", "time", "address", "involving"],
       preview: "name",
-      category: "event",
+      category: "event"
     },
     {
       icon: "mdi-alert",
@@ -136,9 +145,9 @@ const defaults = {
       description: "An event or occurrance involving at least one human",
       keys: ["name", "date", "time", "address", "involving"],
       preview: "name",
-      category: "event",
-    },
-  ],
+      category: "event"
+    }
+  ]
 };
 
 class Store {

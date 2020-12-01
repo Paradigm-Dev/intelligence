@@ -5,7 +5,7 @@
         @click="primary_pic_selector = true"
         src="../assets/default.png"
         v-if="$root.data.files.findIndex((file) => file.primary) == -1"
-        style="border-radius: 99999px;"
+        style="border-radius: 99999px"
         class="mx-auto mb-4 mt-12"
         height="200"
         width="200"
@@ -15,7 +15,7 @@
         @click="primary_pic_selector = true"
         :src="$root.data.files.find((file) => file.primary).uri"
         v-else
-        style="border-radius: 99999px;"
+        style="border-radius: 99999px"
         class="mx-auto mb-4 mt-12"
         height="200"
         width="200"
@@ -31,17 +31,19 @@
 
       <input
         type="text"
-        v-model="$root.data.name.last"
-        style="width: auto;"
+        v-model="primaryObjectName[0]"
+        style="width: auto"
         class="text-h3 font-weight-bold text-uppercase text-center mx-auto mb-2"
         placeholder="Last Name"
+        @keyup="updatePrimaryName()"
       /><br />
       <input
         type="text"
-        v-model="$root.data.name.first"
-        style="width: auto;"
+        v-model="primaryObjectName[1]"
+        style="width: auto"
         class="text-h4 font-weight-regular text-center mx-auto mb-2"
         placeholder="First Name"
+        @keyup="updatePrimaryName()"
       /><br />
       <input
         type="text"
@@ -94,11 +96,26 @@ export default {
       primary_pic_selector: false,
     };
   },
+  computed: {
+    primaryObjectName() {
+      const object = this.$root.data.data.find((object) => object.primary);
+      let array = object.name.split(", ");
+      if (!array[0]) array[0] = "";
+      if (!array[1]) array[1] = "";
+      return array;
+    },
+  },
   methods: {
     setPrimaryImage(image) {
       if (this.$root.data.files.find((file) => file.primary))
         this.$root.data.files.find((file) => file.primary).primary = false;
       image.primary = true;
+    },
+    updatePrimaryName() {
+      const object = this.$root.data.data.find((object) => object.primary);
+      object.name = `${this.primaryObjectName[0].toUpperCase()}${
+        this.primaryObjectName[1] ? ", " : ""
+      }${this.primaryObjectName[1]}`;
     },
   },
 };

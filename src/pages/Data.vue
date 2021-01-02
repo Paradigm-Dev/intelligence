@@ -60,9 +60,9 @@
         </v-list>
       </v-card>
 
-      <v-card v-if="new_item.type">
+      <v-card v-if="newItem.type">
         <v-card-title class="text-h5 font-weight-regular">
-          New {{ new_item.type }}
+          New {{ newItem.type }}
         </v-card-title>
 
         <v-card-text>
@@ -75,35 +75,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(value, key) of new_item" :key="key">
+                <tr v-for="(value, key) of newItem" :key="key">
                   <td>{{ key }}</td>
                   <td>
+                    <p
+                      v-if="key == 'related file'"
+                      style="width: 100%; margin: 0px"
+                      @click="related_file_picker = true"
+                    >
+                      {{
+                        newItem["related file"]
+                          ? newItem["related file"]
+                          : "No file selected"
+                      }}
+                    </p>
+                    <v-checkbox
+                      hide-details
+                      class="ma-0 pa-0"
+                      v-else-if="key.includes('?')"
+                      v-model="newItem[key]"
+                      :label="newItem[key] === true ? 'true' : 'false'"
+                    ></v-checkbox>
                     <input
-                      v-model="new_item[key]"
+                      v-else
+                      v-model="newItem[key]"
                       placeholder="Value"
                       :disabled="key == 'type'"
                       style="width: 100%"
                     />
                   </td>
                 </tr>
-                <!-- <tr>
-                  <td>
-                                        <input
-                      v-model="new_item[key]"
-                      placeholder="Value"
-                      :disabled="key == 'type'"
-                    />
-
-                  </td>
-                  <td>
-                    <input
-                      v-model="new_item[key]"
-                      placeholder="Value"
-                      :disabled="key == 'type'"
-                    />
-                  </td>
-                </tr>
- -->
               </tbody>
             </template>
           </v-simple-table>
@@ -145,7 +146,28 @@
                 <tr v-for="(value, key) of edit_dialog.object" :key="key">
                   <td>{{ key }}</td>
                   <td>
+                    <p
+                      v-if="key == 'related file'"
+                      style="width: 100%; margin: 0px"
+                      @click="related_file_picker = true"
+                    >
+                      {{
+                        edit_dialog.object["related file"]
+                          ? edit_dialog.object["related file"]
+                          : "No file selected"
+                      }}
+                    </p>
+                    <v-checkbox
+                      hide-details
+                      class="ma-0 pa-0"
+                      v-else-if="key.includes('?')"
+                      v-model="edit_dialog.object[key]"
+                      :label="
+                        edit_dialog.object[key] === true ? 'true' : 'false'
+                      "
+                    ></v-checkbox>
                     <input
+                      v-else
                       v-model="edit_dialog.object[key]"
                       placeholder="Value"
                       :disabled="key == 'type'"
@@ -191,6 +213,39 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog max-width="500" v-model="related_file_picker">
+      <v-card>
+        <v-card-title class="text-h5 font-weight-regular">
+          Choose Related File
+        </v-card-title>
+
+        <v-list dense>
+          <v-list-item
+            @click="
+              edit_dialog.open === true
+                ? (edit_dialog.object['related file'] = file.name)
+                : (newItem['related file'] = file.name),
+                (related_file_picker = false)
+            "
+            v-for="(file, index) in $root.data.files"
+            :key="index"
+          >
+            <v-list-item-avatar>
+              <v-img :src="file.uri"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-title>{{ file.name }}</v-list-item-title>
+          </v-list-item>
+
+          <p
+            v-if="$root.data.files.length < 1"
+            class="font-weight-regular text-center"
+          >
+            No files
+          </p>
+        </v-list>
+      </v-card>
+    </v-dialog>
+
     <v-btn fab fixed bottom right color="#06224B" @click="new_dialog = true">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -209,8 +264,15 @@ export default {
       edit_dialog: {
         open: false,
       },
+      related_file_picker: false,
+
       JSON,
     };
+  },
+  computed: {
+    newItem() {
+      return this.new_item;
+    },
   },
   methods: {
     saveNewObject() {

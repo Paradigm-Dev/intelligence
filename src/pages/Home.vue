@@ -44,16 +44,10 @@
         class="text-h4 font-weight-regular text-center mx-auto mb-2"
         placeholder="First Name"
         @keyup="updatePrimaryName()"
-      /><br />
-      <input
-        type="text"
-        v-model="$root.data.case_number"
-        class="text-center mx-auto"
-        placeholder="Case Number"
       />
     </div>
 
-    <v-dialog max-width="750" v-model="primary_pic_selector">
+    <v-dialog max-width="500" v-model="primary_pic_selector">
       <v-card>
         <v-card-title class="text-h5 font-weight-regular">
           Choose Primary Image

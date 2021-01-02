@@ -3,9 +3,10 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import Store from "./store.js";
 import axios from "axios";
+import io from "socket.io-client";
 
 const store = new Store();
-
+let socket = io.connect("https://www.theparadigmdev.com");
 Vue.config.productionTip = false;
 
 Vue.mixin({
@@ -102,7 +103,8 @@ new Vue({
         close_confirm_and_landing: false,
         close_confirm_and_quit: false,
         close_confirm_and_open: false
-      }
+      },
+      socket
     };
   },
   created() {

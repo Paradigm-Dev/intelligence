@@ -8,19 +8,32 @@ module.exports = {
       builderOptions: {
         productName: "Intelligence",
         mac: {
-          darkModeSupport: true,
+          darkModeSupport: true
         },
         dmg: {
           artifactName: "Intelligence-v${version}.${ext}",
-          title: "Intelligence",
+          title: "Intelligence"
         },
         nsis: {
           artifactName: "Intelligence-v${version}.${ext}",
           deleteAppDataOnUninstall: true,
           shortcutName: "Intelligence",
-          uninstallDisplayName: "Intelligence",
-        },
-      },
-    },
+          uninstallDisplayName: "Intelligence"
+        }
+      }
+    }
   },
+  devServer: {
+    https: false,
+    proxy: {
+      "^/api": {
+        target: "https://www.theparadigmdev.com",
+        changeOrigin: true,
+        ws: true,
+        cookieDomainRewrite: {
+          "*": ""
+        }
+      }
+    }
+  }
 };

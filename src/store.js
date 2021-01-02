@@ -146,6 +146,14 @@ const defaults = {
       keys: ["name", "date", "time", "address", "involving"],
       preview: "name",
       category: "event"
+    },
+    {
+      icon: "mdi-gavel",
+      title: "Court Case",
+      description: "An adjudication process overseen by a judge",
+      keys: ["name", "date", "time", "address", "involving", "related file"],
+      preview: "name",
+      category: "event"
     }
   ]
 };
@@ -171,11 +179,11 @@ class Store {
 }
 
 function parseDataFile(filePath) {
-  // try {
-  //   return JSON.parse(fs.readFileSync(filePath));
-  // } catch (error) {
-  return defaults;
-  // }
+  try {
+    return JSON.parse(fs.readFileSync(filePath));
+  } catch (error) {
+    return defaults;
+  }
 }
 
 export default Store;

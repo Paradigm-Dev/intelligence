@@ -178,12 +178,7 @@
               <h1 class="text-h4 grey--text text--lighten-1">
                 Sign in to your account
               </h1>
-              <p
-                class="text--grey text--darken-4 font-weight-light ma-0 subtitle-2"
-              >
-                Or <a class="text--grey text--darken-4"> create an account</a>
-              </p></v-card-title
-            >
+            </v-card-title>
             <v-card-text>
               <v-text-field
                 hide-details
@@ -199,7 +194,10 @@
                 @keypress.enter="signIn()"
                 v-model="password"
               ></v-text-field>
+              <v-checkbox label="Stay signed in" v-model="sticky"></v-checkbox>
+
               <v-btn
+                elevation="2"
                 block
                 color="deep-purple darken-4"
                 @click="signIn()"
@@ -212,8 +210,13 @@
               <p
                 class="ma-auto subtitle-2 text-center font-weight-light text--grey text--darken-4"
               >
-                Forgot your credentials?
-                <a class="text--grey text--darken-4"> Enter account recovery</a>
+                Don't have an account?
+                <a
+                  class="text--grey text--darken-4"
+                  @click="shell.openExternal('https://www.theparadigmdev.com')"
+                >
+                  Create one online</a
+                >
               </p>
             </v-card-actions>
           </v-card>
@@ -230,8 +233,7 @@
             >!
           </h1>
           <p class="grey--text">
-            Not {{ $root.user.username }}?
-            <a @click="$root.user = false">Sign out</a>.
+            Not {{ $root.user.username }}? <a @click="signOut()">Sign out</a>.
           </p>
           <v-row>
             <v-col sm="6">
@@ -469,13 +471,17 @@
 
 <script>
 import { remote } from "electron";
+import { shell } from "electron";
 import axios from "axios";
+import Store from "./store";
 
 import Home from "./pages/Home";
 import Data from "./pages/Data";
 import Files from "./pages/Files";
 import Logs from "./pages/Logs";
 import Help from "./pages/Help";
+
+const store = new Store();
 
 export default {
   name: "app",
@@ -490,13 +496,16 @@ export default {
     return {
       win: remote.getCurrentWindow(),
       maximized: remote.getCurrentWindow().isMaximized(),
-      process,
       username: "",
       password: "",
+      sticky: true,
       tab: 0,
-      console,
       open_dialog: false,
       file_to_open: {},
+
+      process,
+      console,
+      shell,
     };
   },
   computed: {
@@ -530,20 +539,47 @@ export default {
 
     signIn() {
       axios
-        .post("https://www.theparadigmdev.com/api/users/signin", {
-          username: this.username.toLowerCase(),
-          password: this.password,
-        })
-        .then((response) => {
-          if (!response.data.msg) {
-            this.$root.user = response.data;
+        .post(
+          remote.app.isPackaged
+            ? "https://www.theparadigmdev.com/api/authentication/signin"
+            : "/api/authentication/signin",
+          {
+            username: this.username.toLowerCase(),
+            password: this.password,
+            sticky: this.sticky,
+          }
+        )
+        .then(async (response) => {
+          if (!response.data.errors) {
+            this.$root.user = response.data.user;
             this.username = "";
             this.password = "";
+            store.set("jwt", response.data.jwt);
+            this.$root.socket.emit("login", this.$root.user.username);
           } else {
             this.$notify(`<span class="red--text">${response.data.msg}</span>`);
           }
         })
         .catch((error) => console.error(JSON.stringify(error)));
+    },
+    signOut() {
+      if (this.$root.user) {
+        axios
+          .post(
+            remote.app.isPackaged
+              ? "https://www.theparadigmdev.com/api/authentication/signout"
+              : "/api/authentication/signout",
+            {
+              _id: this.$root.user._id,
+            }
+          )
+          .then((response) => {
+            this.$root.socket.disconnect();
+            this.$root.socket = io.connect("https://www.theparadigmdev.com");
+            store.set("jwt", false);
+            this.$root.user = false;
+          });
+      }
     },
   },
   created() {
@@ -551,6 +587,24 @@ export default {
       if (event.metaKey || event.ctrlKey) {
         if (event.code == "KeyS" && this.$root.data) this.saveDocument();
       }
+    });
+    if (store.get("jwt")) {
+      axios
+        .post(
+          remote.app.isPackaged
+            ? "https://www.theparadigmdev.com/api/authentication/verify"
+            : "/api/authentication/verify",
+          { jwt: store.get("jwt") }
+        )
+        .then(async (response) => {
+          if (response.data.valid) {
+            this.$root.user = response.data.user;
+            this.$root.socket.emit("login", this.$root.user.username);
+          }
+        });
+    }
+    this.$root.socket.on("user", (data) => {
+      if (this.$root.user !== data) this.$root.user = data;
     });
   },
 };
